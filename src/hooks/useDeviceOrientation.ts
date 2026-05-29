@@ -31,10 +31,10 @@ export function useDeviceOrientation(): Orientation | null {
       const pitch = Math.atan2(-a.x, Math.sqrt(a.y ** 2 + a.z ** 2));
       const roll = Math.atan2(a.y, a.z);
 
-      const Bx = m.x * Math.cos(pitch) + m.z * Math.sin(pitch);
+      const Bx = m.y * Math.cos(pitch) + m.z * Math.sin(pitch);
       const By =
-        m.x * Math.sin(roll) * Math.sin(pitch) +
-        m.y * Math.cos(roll) -
+        m.y * Math.sin(roll) * Math.sin(pitch) +
+        m.x * Math.cos(roll) -
         m.z * Math.sin(roll) * Math.cos(pitch);
 
       const RAD = 180 / Math.PI;
