@@ -112,15 +112,17 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50 }: RadarVi
                   <G transform={`rotate(${ac.heading})`}>
                     <Polygon points="0,-7 -4,4 0,2 4,4" fill="#facc15" />
                   </G>
-                  <SvgText
-                    x={8}
-                    y={4}
-                    fill="#facc15"
-                    fontSize={8}
-                    fontFamily="monospace"
-                  >
-                    {ac.callsign.trim()}
-                  </SvgText>
+                  <G transform={`rotate(${-discRotation})`}>
+                    <SvgText
+                      x={8}
+                      y={4}
+                      fill="#facc15"
+                      fontSize={8}
+                      fontFamily="monospace"
+                    >
+                      {ac.callsign.trim()}
+                    </SvgText>
+                  </G>
                 </G>
               );
             })}

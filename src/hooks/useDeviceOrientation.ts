@@ -39,7 +39,7 @@ export function useDeviceOrientation(): Orientation | null {
 
       const RAD = 180 / Math.PI;
       setState({
-        azimuth: ((Math.atan2(-By, Bx) * RAD) + 360) % 360,
+        azimuth: ((Math.atan2(By, Bx) * RAD) + 360) % 360,
         elevation: Math.atan2(a.x, Math.sqrt(a.y ** 2 + a.z ** 2)) * RAD,
       });
     }
