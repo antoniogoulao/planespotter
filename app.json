@@ -7,16 +7,22 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "dev.antoniogoulao.planespotter"
     },
     "android": {
+      "package": "dev.antoniogoulao.planespotter",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.CAMERA"
+      ]
     },
     "scheme": "planespotter",
     "web": {
@@ -26,7 +32,10 @@
     "plugins": [
       "expo-router",
       "expo-image",
-      "expo-localization"
+      "expo-localization",
+      ["expo-camera", { "cameraPermission": "PlaneSpotter needs camera access to show aircraft on the live feed." }],
+      ["expo-location", { "locationWhenInUsePermission": "PlaneSpotter uses your location to find nearby aircraft." }],
+      "expo-sensors"
     ]
   }
 }

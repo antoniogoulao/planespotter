@@ -1,0 +1,16 @@
+{
+  "home": {
+    "title": "PlaneSpotter",
+    "radar": "Radar",
+    "ar": "AR"
+  },
+  "ar": {
+    "title": "AR View"
+  },
+  "units": {
+    "ft": "ft",
+    "m": "m",
+    "kn": "kn",
+    "kmh": "km/h"
+  }
+}

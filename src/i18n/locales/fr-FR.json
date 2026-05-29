@@ -1,0 +1,43 @@
+{
+  "home": {
+    "title": "PlaneSpotter",
+    "radar": "Radar",
+    "ar": "RA",
+    "permissions": {
+      "heading": "Autorisations",
+      "location": "Localisation",
+      "camera": "Caméra",
+      "granted": "Accordé",
+      "denied": "Refusé",
+      "pending": "En attente",
+      "requestAll": "Accorder les autorisations"
+    }
+  },
+  "radar": {
+    "title": "Radar"
+  },
+  "ar": {
+    "title": "Vue RA"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "units": "Unités",
+    "metric": "Métrique",
+    "imperial": "Impérial"
+  },
+  "units": {
+    "ft": "ft",
+    "m": "m",
+    "kn": "nd",
+    "kmh": "km/h"
+  },
+  "detail": {
+    "altitude": "Altitude",
+    "speed": "Vitesse",
+    "heading": "Cap",
+    "callsign": "Indicatif",
+    "route": "Route",
+    "noRoute": "Pas de route"
+  }
+}
