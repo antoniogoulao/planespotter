@@ -10,7 +10,7 @@ describe('haversineDistance', () => {
     expect(d).toBeCloseTo(111_195, -2);
   });
 
-  it('Paris → London is ~341 550 m', () => {
+  it('Paris → London is ~343 556 m', () => {
     const d = haversineDistance(
       { lat: 48.8566, lon: 2.3522 },
       { lat: 51.5074, lon: -0.1278 },

@@ -10,10 +10,12 @@ export function useLocation(): LocationState {
   const [state, setState] = useState<LocationState>({ coords: null, error: null });
 
   useEffect(() => {
+    let cancelled = false;
     let sub: Location.LocationSubscription | null = null;
 
     (async () => {
       const { status } = await Location.getForegroundPermissionsAsync();
+      if (cancelled) return;
       if (status !== 'granted') {
         setState({ coords: null, error: 'Location permission not granted' });
         return;
@@ -32,9 +34,13 @@ export function useLocation(): LocationState {
           });
         },
       );
+      if (cancelled) sub.remove();
     })();
 
-    return () => { sub?.remove(); };
+    return () => {
+      cancelled = true;
+      sub?.remove();
+    };
   }, []);
 
   return state;
