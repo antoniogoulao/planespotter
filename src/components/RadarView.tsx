@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import Svg, {
-  Circle, ClipPath, Defs, G, Line, Path, Polygon,
+  Circle, ClipPath, Defs, G, Line, Path,
   Text as SvgText,
 } from 'react-native-svg';
 import { Aircraft } from '../types';
 import { bearingTo, haversineDistance } from '../lib/geo';
+import { AirlineTag } from './AirlineTag';
+import { identify } from '../lib/airlines';
 
 export interface RadarViewProps {
   location: { lat: number; lon: number } | null;
@@ -103,27 +105,21 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50 }: RadarVi
           <SvgText x={R - 6}    y={4}         fill="#6b7280" fontSize={10} textAnchor="end"    fontFamily="sans-serif">E</SvgText>
           <SvgText x={-(R - 6)} y={4}         fill="#6b7280" fontSize={10} textAnchor="start"  fontFamily="sans-serif">W</SvgText>
 
-          {/* Aircraft arrows */}
+          {/* Aircraft blips — AirlineTag owns arrow + label */}
           <G clipPath="url(#disc)">
             {location && visibleAircraft.map(ac => {
               const { x, y } = projectToSVG(location, ac, rangeM, R);
               return (
-                <G key={ac.icao24} transform={`translate(${x}, ${y})`}>
-                  <G transform={`rotate(${ac.heading})`}>
-                    <Polygon points="0,-7 -4,4 0,2 4,4" fill="#facc15" />
-                  </G>
-                  <G transform={`rotate(${-discRotation})`}>
-                    <SvgText
-                      x={8}
-                      y={4}
-                      fill="#facc15"
-                      fontSize={8}
-                      fontFamily="monospace"
-                    >
-                      {ac.callsign.trim()}
-                    </SvgText>
-                  </G>
-                </G>
+                <AirlineTag
+                  key={ac.icao24}
+                  ident={identify(ac.callsign)}
+                  callsign={ac.callsign}
+                  alt={ac.alt}
+                  x={x}
+                  y={y}
+                  heading={ac.heading}
+                  labelRotation={-discRotation}
+                />
               );
             })}
           </G>
