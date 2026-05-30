@@ -219,10 +219,16 @@ import { Ident } from '../types';
 export interface AirlineTagProps {
   ident: Ident;
   callsign: string;
+  alt: number;           // baro altitude in metres — displayed as flight level
   x: number;
   y: number;
   heading: number;       // rotates the arrow
   labelRotation: number; // counter-rotates the label to stay upright on the disc
+}
+
+function toFL(altMetres: number): string {
+  const fl = Math.round((altMetres * 3.28084) / 100);
+  return `FL${String(fl).padStart(3, '0')}`;
 }
 
 // Static map of logos keyed by 3-letter ICAO designator.
@@ -238,7 +244,7 @@ const BADGE_H = 14;
 const BADGE_X = 10; // px right of blip centre
 
 export function AirlineTag({
-  ident, callsign, x, y, heading, labelRotation,
+  ident, callsign, alt, x, y, heading, labelRotation,
 }: AirlineTagProps) {
   const logo =
     ident.kind === 'airline' && ident.code != null
@@ -306,6 +312,17 @@ export function AirlineTag({
           fontFamily="monospace"
         >
           {callsign.trim()}
+        </SvgText>
+
+        {/* Flight level — below callsign */}
+        <SvgText
+          x={BADGE_X + BADGE_W + 8}
+          y={14}
+          fill="#9ca3af"
+          fontSize={7}
+          fontFamily="monospace"
+        >
+          {toFL(alt)}
         </SvgText>
 
       </G>
@@ -417,6 +434,7 @@ Replace with:
                   key={ac.icao24}
                   ident={identify(ac.callsign)}
                   callsign={ac.callsign}
+                  alt={ac.alt}
                   x={x}
                   y={y}
                   heading={ac.heading}
@@ -480,7 +498,9 @@ npx expo run:ios --device
 - ✅ `identify()`: guard → military → airline lookup → fallback
 - ✅ Military prefix Set (24 entries)
 - ✅ `airlines.json` imported via `resolveJsonModule`
-- ✅ `AirlineTag` props: `ident`, `callsign`, `x`, `y`, `heading`, `labelRotation`
+- ✅ `AirlineTag` props: `ident`, `callsign`, `alt`, `x`, `y`, `heading`, `labelRotation`
+- ✅ `toFL(altMetres)` converts metres → `FL###` string (3-digit padded)
+- ✅ Flight level displayed below callsign in grey monospace
 - ✅ Arrow NOT counter-rotated (heading only)
 - ✅ Label group counter-rotated by `labelRotation`
 - ✅ Logo PNG via `LOGO_MAP` with `SvgImage href`
