@@ -7,7 +7,7 @@ async function getToken(): Promise<string> {
   if (tokenCache && tokenCache.expiresAt > Date.now() + 60_000) {
     return tokenCache.token;
   }
-  const res = await fetch('https://opensky-network.org/api/auth/token', {
+  const res = await fetch('https://auth.opensky-network.org/realms/opensky/protocol/openid-connect/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
