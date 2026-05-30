@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
+import i18n from '../i18n';
 
 export interface LocationState {
   coords: { lat: number; lon: number; alt: number; accuracy: number } | null;
@@ -17,7 +18,7 @@ export function useLocation(): LocationState {
       const { status } = await Location.getForegroundPermissionsAsync();
       if (cancelled) return;
       if (status !== 'granted') {
-        setState({ coords: null, error: 'Location permission not granted' });
+        setState({ coords: null, error: i18n.t('errors.locationPermission') });
         return;
       }
       sub = await Location.watchPositionAsync(

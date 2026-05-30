@@ -1,5 +1,6 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from '../src/hooks/useLocation';
 import { useDeviceOrientation } from '../src/hooks/useDeviceOrientation';
 import { useAircraft } from '../src/hooks/useAircraft';
@@ -7,6 +8,7 @@ import { useRoutes } from '../src/hooks/useRoutes';
 import { AROverlay } from '../src/components/AROverlay';
 
 export default function ARScreen() {
+  const { t } = useTranslation();
   const { coords } = useLocation();
   const orientation = useDeviceOrientation();
   const [camPermission, requestCamPermission] = useCameraPermissions();
@@ -26,11 +28,11 @@ export default function ARScreen() {
       <View style={styles.error}>
         <Text style={styles.errorText}>
           {camPermission.canAskAgain
-            ? 'Camera permission required for AR view.'
-            : 'Enable camera access in Settings to use AR view.'}
+            ? t('ar.permissionRequired')
+            : t('ar.permissionDenied')}
         </Text>
         {camPermission.canAskAgain && (
-          <Button title="Grant Permission" onPress={requestCamPermission} />
+          <Button title={t('ar.grantPermission')} onPress={requestCamPermission} />
         )}
       </View>
     );

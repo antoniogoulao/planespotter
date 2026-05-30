@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Svg, {
   Circle, ClipPath, Defs, G, Line, Path,
   Text as SvgText,
@@ -47,6 +48,7 @@ function fixedConePathD(R: number): string {
 }
 
 export function RadarView({ location, azimuth, aircraft, rangeKm = 50, routes = new Map() }: RadarViewProps) {
+  const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const R = Math.min(width, height) * 0.45;
   const rangeM = rangeKm * 1000;
@@ -148,7 +150,7 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50, routes = 
         {/* Locating… */}
         {!location && (
           <SvgText x={0} y={4} fill="#6b7280" fontSize={11} textAnchor="middle" fontFamily="sans-serif">
-            Locating…
+            {t('radar.locating')}
           </SvgText>
         )}
       </Svg>
