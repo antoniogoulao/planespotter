@@ -1,6 +1,6 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { initI18n } from '../src/i18n';
 import { DebugReadout } from '../src/components/DebugReadout';
@@ -9,6 +9,7 @@ export default function RootLayout() {
   const [ready, setReady] = useState(false);
   const [showDebug, setShowDebug] = useState(false);
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     initI18n().then(() => setReady(true));
@@ -19,9 +20,23 @@ export default function RootLayout() {
   return (
     <View style={{ flex: 1 }}>
       <Stack>
-        <Stack.Screen name="index" options={{ title: t('home.title') }} />
-        <Stack.Screen name="radar" options={{ title: t('radar.title') }} />
-        <Stack.Screen name="ar" options={{ title: t('ar.title') }} />
+        <Stack.Screen
+          name="index"
+          options={{
+            title: t('home.title'),
+            headerRight: () => (
+              <Pressable
+                onPress={() => router.push('/settings')}
+                style={{ marginRight: 12 }}
+              >
+                <Text style={{ fontSize: 22 }}>⚙️</Text>
+              </Pressable>
+            ),
+          }}
+        />
+        <Stack.Screen name="radar"    options={{ title: t('radar.title') }} />
+        <Stack.Screen name="ar"       options={{ title: t('ar.title') }} />
+        <Stack.Screen name="settings" options={{ title: t('settings.title') }} />
       </Stack>
       {__DEV__ && (
         <>
