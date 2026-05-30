@@ -14,6 +14,16 @@ const MOCK_AMS = {
   elevation: -11, latitude: 52.308601, longitude: 4.76389,
 };
 
+// Real adsbdb shape: response.flightroute.{origin,destination}
+const FOUND_RESPONSE = {
+  response: {
+    flightroute: { callsign: 'TAP1234', origin: MOCK_LIS, destination: MOCK_AMS },
+  },
+};
+
+// Real adsbdb "not found" shape: response is a string
+const NOT_FOUND_RESPONSE = { response: 'unknown callsign' };
+
 describe('fetchRoute', () => {
   beforeEach(() => { global.fetch = jest.fn(); });
   afterEach(() => { jest.restoreAllMocks(); });
@@ -21,7 +31,7 @@ describe('fetchRoute', () => {
   it('calls the correct adsbdb URL', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ response: false }),
+      json: async () => NOT_FOUND_RESPONSE,
     });
     await fetchRoute('TAP1234');
     expect(global.fetch).toHaveBeenCalledWith(
@@ -32,9 +42,7 @@ describe('fetchRoute', () => {
   it('returns a Route with mapped fields when callsign is found', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => ({
-        response: { callsign: 'TAP1234', origin: MOCK_LIS, destination: MOCK_AMS },
-      }),
+      json: async () => FOUND_RESPONSE,
     });
     const route = await fetchRoute('TAP1234');
     expect(route).toEqual({
@@ -43,10 +51,10 @@ describe('fetchRoute', () => {
     });
   });
 
-  it('returns null when response is false (callsign not found)', async () => {
+  it('returns null when response is a string (callsign not found)', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ response: false }),
+      json: async () => NOT_FOUND_RESPONSE,
     });
     expect(await fetchRoute('ZZZ999')).toBeNull();
   });

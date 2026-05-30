@@ -5,14 +5,15 @@ interface AdsbDbAirport {
   icao_code: string;
   name: string;
   municipality: string;
-  [key: string]: unknown;
 }
 
 interface AdsbDbResponse {
-  response: false | {
-    callsign: string;
-    origin: AdsbDbAirport;
-    destination: AdsbDbAirport;
+  response: string | {
+    flightroute: {
+      callsign: string;
+      origin: AdsbDbAirport;
+      destination: AdsbDbAirport;
+    };
   };
 }
 
@@ -32,10 +33,11 @@ export async function fetchRoute(callsign: string): Promise<Route | null> {
     );
     if (!res.ok) return null;
     const data = await res.json() as AdsbDbResponse;
-    if (!data.response) return null;
+    if (typeof data.response !== 'object') return null;
+    const { origin, destination } = data.response.flightroute;
     return {
-      origin: mapAirport(data.response.origin),
-      destination: mapAirport(data.response.destination),
+      origin: mapAirport(origin),
+      destination: mapAirport(destination),
     };
   } catch {
     return null;
