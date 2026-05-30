@@ -4,7 +4,7 @@ import Svg, {
   Circle, ClipPath, Defs, G, Line, Path,
   Text as SvgText,
 } from 'react-native-svg';
-import { Aircraft } from '../types';
+import { Aircraft, Route } from '../types';
 import { bearingTo, haversineDistance } from '../lib/geo';
 import { AirlineTag } from './AirlineTag';
 import { identify } from '../lib/airlines';
@@ -14,6 +14,7 @@ export interface RadarViewProps {
   azimuth: number | null;
   aircraft: Aircraft[];
   rangeKm?: number;
+  routes?: Map<string, Route | null>;
 }
 
 const DEG = Math.PI / 180;
@@ -45,7 +46,7 @@ function fixedConePathD(R: number): string {
   return `M 0 0 L ${x1} ${y1} A ${R} ${R} 0 0 1 ${x2} ${y2} Z`;
 }
 
-export function RadarView({ location, azimuth, aircraft, rangeKm = 50 }: RadarViewProps) {
+export function RadarView({ location, azimuth, aircraft, rangeKm = 50, routes = new Map() }: RadarViewProps) {
   const { width, height } = useWindowDimensions();
   const R = Math.min(width, height) * 0.45;
   const rangeM = rangeKm * 1000;
@@ -119,6 +120,7 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50 }: RadarVi
                   y={y}
                   heading={ac.heading}
                   labelRotation={-discRotation}
+                  route={routes.get(ac.callsign) ?? null}
                 />
               );
             })}

@@ -3,7 +3,7 @@ import {
   G, Image as SvgImage, Polygon, Rect,
   Text as SvgText,
 } from 'react-native-svg';
-import { Ident } from '../types';
+import { Ident, Route } from '../types';
 
 export interface AirlineTagProps {
   ident: Ident;
@@ -13,6 +13,7 @@ export interface AirlineTagProps {
   y: number;
   heading: number;       // rotates the arrow
   labelRotation: number; // counter-rotates the label to stay upright on the disc
+  route?: Route | null;
 }
 
 function toFL(altMetres: number): string {
@@ -38,7 +39,7 @@ const BADGE_H = 14;
 const BADGE_X = 10; // px right of blip centre
 
 export function AirlineTag({
-  ident, callsign, alt, x, y, heading, labelRotation,
+  ident, callsign, alt, x, y, heading, labelRotation, route = null,
 }: AirlineTagProps) {
   const logo =
     ident.kind === 'airline' && ident.code != null
@@ -118,6 +119,19 @@ export function AirlineTag({
         >
           {toFL(alt)}
         </SvgText>
+
+        {/* Route — departure → destination, shown when available */}
+        {route?.origin.iata && route?.destination.iata && (
+          <SvgText
+            x={BADGE_X + BADGE_W + 8}
+            y={24}
+            fill="#9ca3af"
+            fontSize={7}
+            fontFamily="monospace"
+          >
+            {route.origin.iata}→{route.destination.iata}
+          </SvgText>
+        )}
 
       </G>
     </G>

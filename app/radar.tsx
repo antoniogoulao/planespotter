@@ -3,6 +3,7 @@ import { useLocation } from '../src/hooks/useLocation';
 import { useDeviceOrientation } from '../src/hooks/useDeviceOrientation';
 import { RadarView } from '../src/components/RadarView';
 import { useAircraft } from '../src/hooks/useAircraft';
+import { useRoutes } from '../src/hooks/useRoutes';
 
 export default function RadarScreen() {
   const { coords, error } = useLocation();
@@ -11,6 +12,8 @@ export default function RadarScreen() {
   const location = coords ? { lat: coords.lat, lon: coords.lon } : null;
   const azimuth = orientation?.azimuth ?? null;
   const aircraft = useAircraft(location);
+  const callsigns = aircraft.map(ac => ac.callsign).filter(Boolean);
+  const routes = useRoutes(callsigns);
 
   if (error) {
     return (
@@ -22,7 +25,7 @@ export default function RadarScreen() {
 
   return (
     <View style={styles.container}>
-      <RadarView location={location} azimuth={azimuth} aircraft={aircraft} />
+      <RadarView location={location} azimuth={azimuth} aircraft={aircraft} routes={routes} />
     </View>
   );
 }
