@@ -14,10 +14,14 @@
     }
   },
   "radar": {
-    "title": "Radar"
+    "title": "Radar",
+    "locating": "A localizar…"
   },
   "ar": {
-    "title": "Vista RA"
+    "title": "Vista RA",
+    "permissionRequired": "Permissão de câmara necessária para a vista RA.",
+    "permissionDenied": "Ative o acesso à câmara nas definições para usar a vista RA.",
+    "grantPermission": "Conceder permissão"
   },
   "settings": {
     "title": "Definições",
@@ -39,5 +43,8 @@
     "callsign": "Indicativo",
     "route": "Rota",
     "noRoute": "Sem rota"
+  },
+  "errors": {
+    "locationPermission": "Permissão de localização não concedida"
   }
 }

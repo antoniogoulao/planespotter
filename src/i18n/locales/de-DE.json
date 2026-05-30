@@ -14,10 +14,14 @@
     }
   },
   "radar": {
-    "title": "Radar"
+    "title": "Radar",
+    "locating": "Lokalisiere…"
   },
   "ar": {
-    "title": "AR-Ansicht"
+    "title": "AR-Ansicht",
+    "permissionRequired": "Kameraberechtigung für die AR-Ansicht erforderlich.",
+    "permissionDenied": "Aktivieren Sie den Kamerazugriff in den Einstellungen für die AR-Ansicht.",
+    "grantPermission": "Berechtigung erteilen"
   },
   "settings": {
     "title": "Einstellungen",
@@ -39,5 +43,8 @@
     "callsign": "Rufzeichen",
     "route": "Route",
     "noRoute": "Keine Route"
+  },
+  "errors": {
+    "locationPermission": "Standortberechtigung nicht erteilt"
   }
 }

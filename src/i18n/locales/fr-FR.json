@@ -14,10 +14,14 @@
     }
   },
   "radar": {
-    "title": "Radar"
+    "title": "Radar",
+    "locating": "Localisation…"
   },
   "ar": {
-    "title": "Vue RA"
+    "title": "Vue RA",
+    "permissionRequired": "Autorisation de caméra requise pour la vue RA.",
+    "permissionDenied": "Activez l'accès à la caméra dans les réglages pour utiliser la vue RA.",
+    "grantPermission": "Accorder l'autorisation"
   },
   "settings": {
     "title": "Paramètres",
@@ -39,5 +43,8 @@
     "callsign": "Indicatif",
     "route": "Route",
     "noRoute": "Pas de route"
+  },
+  "errors": {
+    "locationPermission": "Autorisation de localisation refusée"
   }
 }

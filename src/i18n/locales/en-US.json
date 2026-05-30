@@ -14,10 +14,14 @@
     }
   },
   "radar": {
-    "title": "Radar"
+    "title": "Radar",
+    "locating": "Locating…"
   },
   "ar": {
-    "title": "AR View"
+    "title": "AR View",
+    "permissionRequired": "Camera permission required for AR view.",
+    "permissionDenied": "Enable camera access in Settings to use AR view.",
+    "grantPermission": "Grant Permission"
   },
   "settings": {
     "title": "Settings",
@@ -39,5 +43,8 @@
     "callsign": "Callsign",
     "route": "Route",
     "noRoute": "No route"
+  },
+  "errors": {
+    "locationPermission": "Location permission not granted"
   }
 }

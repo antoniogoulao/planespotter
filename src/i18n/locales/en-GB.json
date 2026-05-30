@@ -4,13 +4,38 @@
     "radar": "Radar",
     "ar": "AR"
   },
+  "radar": {
+    "title": "Radar",
+    "locating": "Locating…"
+  },
   "ar": {
-    "title": "AR View"
+    "title": "AR View",
+    "permissionRequired": "Camera permission required for AR view.",
+    "permissionDenied": "Enable camera access in Settings to use AR view.",
+    "grantPermission": "Grant Permission"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "units": "Units",
+    "metric": "Metric",
+    "imperial": "Imperial"
   },
   "units": {
     "ft": "ft",
     "m": "m",
     "kn": "kn",
     "kmh": "km/h"
+  },
+  "detail": {
+    "altitude": "Altitude",
+    "speed": "Speed",
+    "heading": "Heading",
+    "callsign": "Callsign",
+    "route": "Route",
+    "noRoute": "No route"
+  },
+  "errors": {
+    "locationPermission": "Location permission not granted"
   }
 }
