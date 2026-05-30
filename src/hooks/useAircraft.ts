@@ -38,8 +38,9 @@ export function useAircraft(
       for (const [id, ac] of store.current) {
         if (now - ac.lastUpdate > STALE_MS) store.current.delete(id);
       }
-    } catch {
+    } catch (err) {
       // keep last known data on network error
+      if (__DEV__) console.warn('[useAircraft] poll error:', err);
     }
   });
 
