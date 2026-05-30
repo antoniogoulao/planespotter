@@ -26,22 +26,25 @@ export function useAircraft(
   const locRef = useRef(location);
   locRef.current = location;
 
-  useEffect(() => {
-    async function poll() {
-      const loc = locRef.current;
-      if (!loc) return;
-      try {
-        const fresh = await fetchAircraft(loc.lat, loc.lon);
-        const now = Date.now();
-        fresh.forEach(ac => store.current.set(ac.icao24, { ...ac, lastUpdate: now }));
-        for (const [id, ac] of store.current) {
-          if (now - ac.lastUpdate > STALE_MS) store.current.delete(id);
-        }
-      } catch {
-        // keep last known data on network error
+  // Store poll in a ref so both effects can invoke it
+  const pollRef = useRef(async () => {
+    const loc = locRef.current;
+    if (!loc) return;
+    try {
+      const fresh = await fetchAircraft(loc.lat, loc.lon);
+      // Preserve the OpenSky timestamp — dead reckoning must account for data age
+      fresh.forEach(ac => store.current.set(ac.icao24, ac));
+      const now = Date.now();
+      for (const [id, ac] of store.current) {
+        if (now - ac.lastUpdate > STALE_MS) store.current.delete(id);
       }
+    } catch {
+      // keep last known data on network error
     }
+  });
 
+  // Start interval-based polling + DR tick once on mount
+  useEffect(() => {
     function tick() {
       if (!locRef.current) return;
       const now = Date.now();
@@ -50,9 +53,9 @@ export function useAircraft(
       );
     }
 
-    poll();
+    void pollRef.current();
     tick();
-    const pollId = setInterval(poll, POLL_MS);
+    const pollId = setInterval(() => void pollRef.current(), POLL_MS);
     const drId = setInterval(tick, DR_MS);
 
     return () => {
@@ -60,6 +63,12 @@ export function useAircraft(
       clearInterval(drId);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Fire an immediate poll whenever location first becomes non-null
+  // (covers the case where location permission is granted after mount)
+  useEffect(() => {
+    if (location) void pollRef.current();
+  }, [location?.lat, location?.lon]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return aircraft;
 }
