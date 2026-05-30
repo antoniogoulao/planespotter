@@ -1,28 +1,10 @@
 import { normaliseState } from '../../src/api/opensky-normalise';
 import { Aircraft } from '../../src/types';
 
-let tokenCache: { token: string; expiresAt: number } | null = null;
-
-async function getToken(): Promise<string> {
-  if (tokenCache && tokenCache.expiresAt > Date.now() + 60_000) {
-    return tokenCache.token;
-  }
-  const res = await fetch('https://auth.opensky-network.org/realms/opensky/protocol/openid-connect/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'client_credentials',
-      client_id: process.env.OPENSKY_CLIENT_ID!,
-      client_secret: process.env.OPENSKY_CLIENT_SECRET!,
-    }).toString(),
-  });
-  if (!res.ok) throw new Error(`Token request failed: ${res.status}`);
-  const data = await res.json() as { access_token: string; expires_in: number };
-  tokenCache = {
-    token: data.access_token,
-    expiresAt: Date.now() + data.expires_in * 1000,
-  };
-  return tokenCache.token;
+function basicAuth(): string {
+  const id = process.env.OPENSKY_CLIENT_ID!;
+  const secret = process.env.OPENSKY_CLIENT_SECRET!;
+  return 'Basic ' + Buffer.from(`${id}:${secret}`).toString('base64');
 }
 
 export async function GET(request: Request): Promise<Response> {
@@ -44,7 +26,7 @@ export async function GET(request: Request): Promise<Response> {
   }
 
   try {
-    const token = await getToken();
+    const auth = basicAuth();
     const D_LAT = 50 / 111;
     const D_LON = 50 / (111 * Math.cos((lat * Math.PI) / 180));
     const url =
@@ -53,7 +35,7 @@ export async function GET(request: Request): Promise<Response> {
       `&lomin=${lon - D_LON}&lomax=${lon + D_LON}`;
 
     const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: auth },
     });
     if (!res.ok) {
       return Response.json(
