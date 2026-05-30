@@ -100,7 +100,7 @@ interface AirlineTagProps {
 
 ```ts
 const LOGO_MAP: Record<string, ReturnType<typeof require>> = {
-  DLH: require('../../assets/logos/DLH.png'),
+  DLH: require('../../assets/logos/GEC.png'),
   KLM: require('../../assets/logos/KLM.png'),
   TAP: require('../../assets/logos/TAP.png'),
 };

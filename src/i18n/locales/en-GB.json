@@ -2,7 +2,16 @@
   "home": {
     "title": "PlaneSpotter",
     "radar": "Radar",
-    "ar": "AR"
+    "ar": "AR",
+    "permissions": {
+      "heading": "Permissions",
+      "location": "Location",
+      "camera": "Camera",
+      "granted": "Granted",
+      "denied": "Denied",
+      "pending": "Pending",
+      "requestAll": "Grant Permissions"
+    }
   },
   "radar": {
     "title": "Radar",

@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from '../src/hooks/useLocation';
 import { useDeviceOrientation } from '../src/hooks/useDeviceOrientation';
 import { RadarView } from '../src/components/RadarView';
@@ -6,6 +7,7 @@ import { useAircraft } from '../src/hooks/useAircraft';
 import { useRoutes } from '../src/hooks/useRoutes';
 
 export default function RadarScreen() {
+  const { t } = useTranslation();
   const { coords, error } = useLocation();
   const orientation = useDeviceOrientation();
 
@@ -18,7 +20,7 @@ export default function RadarScreen() {
   if (error) {
     return (
       <View style={styles.error}>
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.errorText}>{t(error)}</Text>
       </View>
     );
   }
