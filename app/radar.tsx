@@ -2,30 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useLocation } from '../src/hooks/useLocation';
 import { useDeviceOrientation } from '../src/hooks/useDeviceOrientation';
 import { RadarView } from '../src/components/RadarView';
-import { offsetPosition } from '../src/lib/geo';
-import { Aircraft } from '../src/types';
-
-const MOCK_OFFSETS: [number, number][] = [
-  [45,  12_000],
-  [210, 20_000],
-  [310, 35_000],
-];
-
-type AircraftBase = Omit<Aircraft, 'lat' | 'lon'>;
-
-const MOCK_BASE: AircraftBase[] = [
-  { icao24: 'abc001', callsign: 'BAW123', alt: 10000, velocity: 250, heading: 60,  verticalRate: 0,  lastUpdate: 0 },
-  { icao24: 'abc002', callsign: 'TAP456', alt: 8000,  velocity: 220, heading: 200, verticalRate: -3, lastUpdate: 0 },
-  { icao24: 'abc003', callsign: 'RYR789', alt: 12000, velocity: 270, heading: 310, verticalRate: 2,  lastUpdate: 0 },
-];
-
-function offsetMockAircraft(origin: { lat: number; lon: number }): Aircraft[] {
-  return MOCK_BASE.map((base, i) => {
-    const [bearing, metres] = MOCK_OFFSETS[i];
-    const pos = offsetPosition(origin, bearing, metres);
-    return { ...base, lat: pos.lat, lon: pos.lon };
-  });
-}
+import { useAircraft } from '../src/hooks/useAircraft';
 
 export default function RadarScreen() {
   const { coords, error } = useLocation();
@@ -33,7 +10,7 @@ export default function RadarScreen() {
 
   const location = coords ? { lat: coords.lat, lon: coords.lon } : null;
   const azimuth = orientation?.azimuth ?? null;
-  const aircraft = location ? offsetMockAircraft(location) : [];
+  const aircraft = useAircraft(location);
 
   if (error) {
     return (
