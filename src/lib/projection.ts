@@ -1,7 +1,7 @@
 import { bearingTo, haversineDistance } from './geo';
 import { Geo } from '../types';
 
-export const DEFAULT_FOV = { h: 60, v: 75 };
+export const DEFAULT_FOV = { h: 62, v: 103 };
 
 export function projectToScreen(
   device: Geo & { alt: number },

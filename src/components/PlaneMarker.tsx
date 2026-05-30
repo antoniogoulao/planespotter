@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     alignItems: 'center',
-    transform: [{ translateX: -50 }, { translateY: -93 }],
+    transform: [{ translateX: -54 }, { translateY: -103 }],
   },
   card: {
     backgroundColor: 'rgba(0,0,0,0.72)',
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 5,
     minWidth: 80,
+    maxWidth: 100,
     alignItems: 'flex-start',
   },
   callsign: {
