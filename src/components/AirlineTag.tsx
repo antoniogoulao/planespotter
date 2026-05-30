@@ -16,16 +16,21 @@ export interface AirlineTagProps {
 }
 
 function toFL(altMetres: number): string {
-  const fl = Math.round((altMetres * 3.28084) / 100);
+  const fl = Math.round((Math.max(0, altMetres) * 3.28084) / 100);
   return `FL${String(fl).padStart(3, '0')}`;
 }
 
 // Static map of logos keyed by 3-letter ICAO designator.
 // Add a new entry here whenever a PNG is dropped in assets/logos/.
 const LOGO_MAP: Record<string, ReturnType<typeof require>> = {
+  AFR: require('../../assets/logos/AFR.png'),
   DLH: require('../../assets/logos/DLH.png'),
+  ETD: require('../../assets/logos/ETD.png'),
+  GEC: require('../../assets/logos/GEC.png'),
   KLM: require('../../assets/logos/KLM.png'),
+  MMZ: require('../../assets/logos/MMZ.png'),
   TAP: require('../../assets/logos/TAP.png'),
+  UAE: require('../../assets/logos/UAE.png'),
 };
 
 const BADGE_W = 24;
