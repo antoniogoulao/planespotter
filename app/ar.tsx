@@ -51,6 +51,7 @@ export default function ARScreen() {
   const routes    = useRoutes(callsigns);
 
   function showToast(message: string, duration: number) {
+    toastOpacity.stopAnimation();
     setToast(message);
     Animated.sequence([
       Animated.timing(toastOpacity, { toValue: 1, duration: 200, useNativeDriver: true }),
@@ -73,14 +74,14 @@ export default function ARScreen() {
     try {
       const { status } = await MediaLibrary.requestPermissionsAsync();
       if (status !== 'granted') {
-        showToast('Could not save photo', 2000);
+        showToast(t('ar.saveError'), 2000);
         return;
       }
       const uri = await viewShotRef.current.capture();
       await MediaLibrary.saveToLibraryAsync(uri);
-      showToast('Saved ✓', 1500);
+      showToast(t('ar.saved'), 1500);
     } catch {
-      showToast('Could not save photo', 2000);
+      showToast(t('ar.saveError'), 2000);
     } finally {
       setCapturing(false);
     }
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 24,
   },
-  controlsSpacer: { width: 52 },
+  controlsSpacer: { flex: 1 },
   controlsRight:  { flex: 1, alignItems: 'flex-end' },
   shutter: {
     width: 64,

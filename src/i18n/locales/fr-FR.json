@@ -21,7 +21,9 @@
     "title": "Vue RA",
     "permissionRequired": "Autorisation de caméra requise pour la vue RA.",
     "permissionDenied": "Activez l'accès à la caméra dans les réglages pour utiliser la vue RA.",
-    "grantPermission": "Accorder l'autorisation"
+    "grantPermission": "Accorder l'autorisation",
+    "saved": "Enregistré ✓",
+    "saveError": "Impossible d'enregistrer la photo"
   },
   "settings": {
     "title": "Paramètres",

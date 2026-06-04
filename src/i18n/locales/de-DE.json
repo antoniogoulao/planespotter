@@ -21,7 +21,9 @@
     "title": "AR-Ansicht",
     "permissionRequired": "Kameraberechtigung für die AR-Ansicht erforderlich.",
     "permissionDenied": "Aktivieren Sie den Kamerazugriff in den Einstellungen für die AR-Ansicht.",
-    "grantPermission": "Berechtigung erteilen"
+    "grantPermission": "Berechtigung erteilen",
+    "saved": "Gespeichert ✓",
+    "saveError": "Foto konnte nicht gespeichert werden"
   },
   "settings": {
     "title": "Einstellungen",

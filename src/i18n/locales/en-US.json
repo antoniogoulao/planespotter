@@ -21,7 +21,9 @@
     "title": "AR View",
     "permissionRequired": "Camera permission required for AR view.",
     "permissionDenied": "Enable camera access in Settings to use AR view.",
-    "grantPermission": "Grant Permission"
+    "grantPermission": "Grant Permission",
+    "saved": "Saved ✓",
+    "saveError": "Could not save photo"
   },
   "settings": {
     "title": "Settings",

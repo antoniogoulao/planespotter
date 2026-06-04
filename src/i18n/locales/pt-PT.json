@@ -21,7 +21,9 @@
     "title": "Vista RA",
     "permissionRequired": "Permissão de câmara necessária para a vista RA.",
     "permissionDenied": "Ative o acesso à câmara nas definições para usar a vista RA.",
-    "grantPermission": "Conceder permissão"
+    "grantPermission": "Conceder permissão",
+    "saved": "Guardado ✓",
+    "saveError": "Não foi possível guardar a foto"
   },
   "settings": {
     "title": "Definições",
