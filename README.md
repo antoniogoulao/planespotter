@@ -9,6 +9,8 @@ Each marker shows the airline logo (or a military / N/A badge), callsign, depart
 ## Features
 
 - **AR overlay** — aircraft markers placed on the live camera feed using magnetometer + accelerometer for pointing direction
+- **Shutter button** — captures a composite photo (camera feed + AR markers) and saves it to Camera Roll
+- **Zoom control** — pill button cycles the camera through 1×, 2×, and 4× zoom; AR marker positions stay geometrically accurate at every level
 - **2D radar** — top-down view of nearby traffic, north-up, device heading indicator
 - **Live ADS-B data** — pulls from OpenSky Network via a secure server-side proxy (credentials never in the app binary)
 - **Route enrichment** — departure and destination airports resolved per callsign from adsbdb
@@ -28,6 +30,7 @@ Each marker shows the airline logo (or a military / N/A badge), callsign, depart
 | Sensors | expo-sensors (magnetometer + accelerometer) |
 | Location | expo-location |
 | Camera | expo-camera (AR); react-native-vision-camera (optional, M9) |
+| Photo capture | react-native-view-shot + expo-media-library |
 | ADS-B | OpenSky Network REST API via Expo API route proxy |
 | Routes | adsbdb public API |
 | i18n | i18next + react-i18next + expo-localization |
