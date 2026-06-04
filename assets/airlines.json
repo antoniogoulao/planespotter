@@ -2427,6 +2427,10 @@
     "name": "Berkut Air",
     "iata": ""
   },
+  "BEL": {
+    "name": "Brussels Airlines",
+    "iata": "SN"
+  },
   "BER": {
     "name": "Air Berlin",
     "iata": "AB"

@@ -3,6 +3,8 @@ import { Geo } from '../types';
 
 export const DEFAULT_FOV = { h: 62, v: 103 };
 
+const DEG = Math.PI / 180;
+
 export function projectToScreen(
   device: Geo & { alt: number },
   orientation: { azimuth: number; elevation: number },
@@ -12,18 +14,53 @@ export function projectToScreen(
 ): { x: number; y: number } | null {
   const { h: hFov, v: vFov } = fov ?? DEFAULT_FOV;
 
-  const bearing = bearingTo(device, aircraft);
-  const dAz     = ((bearing - orientation.azimuth + 540) % 360) - 180;
+  // Aircraft direction as a unit vector in East-North-Up world frame
+  const bearing   = bearingTo(device, aircraft);
+  const horizDist = haversineDistance(device, aircraft);
+  const altDiff   = (aircraft.alt ?? 0) - device.alt;
+  const elAcRad   = Math.atan2(altDiff, horizDist);
+  const brgRad    = bearing * DEG;
 
-  const horizDist           = haversineDistance(device, aircraft);
-  const altDiff             = (aircraft.alt ?? 0) - device.alt;
-  const elevationToAircraft = Math.atan2(altDiff, horizDist) * (180 / Math.PI);
-  const dEl                 = elevationToAircraft - orientation.elevation;
+  const dE = Math.sin(brgRad) * Math.cos(elAcRad);
+  const dN = Math.cos(brgRad) * Math.cos(elAcRad);
+  const dU = Math.sin(elAcRad);
 
-  if (Math.abs(dAz) > hFov / 2 || Math.abs(dEl) > vFov / 2) return null;
+  // Camera basis in ENU
+  const azRad = orientation.azimuth  * DEG;
+  const elRad = orientation.elevation * DEG;
+
+  // Forward: the direction the camera points
+  const fE = Math.sin(azRad) * Math.cos(elRad);
+  const fN = Math.cos(azRad) * Math.cos(elRad);
+  const fU = Math.sin(elRad);
+
+  // Right: horizontal, 90° clockwise from forward (rU = 0)
+  const rE =  Math.cos(azRad);
+  const rN = -Math.sin(azRad);
+
+  // Up: right × forward  (gives the screen-up axis, tilts with camera elevation)
+  const uE = rN * fU;
+  const uN = -rE * fU;
+  const uU = rE * fN - rN * fE;
+
+  // Project aircraft direction onto camera axes
+  const fwd   = dE * fE + dN * fN + dU * fU;
+  const right = dE * rE + dN * rN;               // rU = 0
+  const up    = dE * uE + dN * uN + dU * uU;
+
+  if (fwd <= 0) return null;   // aircraft is behind the camera
+
+  // Perspective divide — maps to tangent of off-axis angle
+  const px = right / fwd;
+  const py = up    / fwd;
+
+  const hTan = Math.tan((hFov * DEG) / 2);
+  const vTan = Math.tan((vFov * DEG) / 2);
+
+  if (Math.abs(px) > hTan || Math.abs(py) > vTan) return null;
 
   return {
-    x: screen.width  / 2 + (dAz / (hFov / 2)) * (screen.width  / 2),
-    y: screen.height / 2 - (dEl / (vFov / 2)) * (screen.height / 2),
+    x: screen.width  / 2 + (px / hTan) * (screen.width  / 2),
+    y: screen.height / 2 - (py / vTan) * (screen.height / 2),
   };
 }

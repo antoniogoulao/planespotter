@@ -13,8 +13,11 @@ export default function ARScreen() {
   const orientation = useDeviceOrientation();
   const [camPermission, requestCamPermission] = useCameraPermissions();
 
+  // GPS vertical accuracy is poor (±500–2000 m in urban environments).
+  // Using it would misplace markers especially for low-altitude aircraft.
+  // Horizontal position is accurate; altitude is ignored for the device.
   const location = coords
-    ? { lat: coords.lat, lon: coords.lon, alt: coords.alt }
+    ? { lat: coords.lat, lon: coords.lon, alt: 0 }
     : null;
 
   const aircraft  = useAircraft(location);
@@ -56,4 +59,6 @@ const styles = StyleSheet.create({
   fill:      { flex: 1, backgroundColor: '#000' },
   error:     { flex: 1, backgroundColor: '#000', alignItems: 'center', justifyContent: 'center', padding: 24 },
   errorText: { color: '#ef4444', fontSize: 14, textAlign: 'center', marginBottom: 16 },
+  debug:     { position: 'absolute', top: 80, right: 12, backgroundColor: 'rgba(0,0,0,0.7)', padding: 8, borderRadius: 6, gap: 2 },
+  dbg:       { color: '#4ade80', fontFamily: 'monospace', fontSize: 11 },
 });
