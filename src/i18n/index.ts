@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createMMKV } from 'react-native-mmkv';
 import enUS from './locales/en-US.json';
 import enGB from './locales/en-GB.json';
 import frFR from './locales/fr-FR.json';
@@ -19,6 +19,7 @@ const resources = {
 };
 export const SUPPORTED = Object.keys(resources);
 const STORAGE_KEY = 'lang';
+const storage = createMMKV();
 
 function pickLocale(stored?: string | null): string {
   if (stored && SUPPORTED.includes(stored)) return stored;
@@ -33,7 +34,7 @@ function pickLocale(stored?: string | null): string {
 
 export async function initI18n() {
   if (i18n.isInitialized) return Promise.resolve(i18n);
-  const stored = await AsyncStorage.getItem(STORAGE_KEY);
+  const stored = storage.getString(STORAGE_KEY);
   await i18n.use(initReactI18next).init({
     resources,
     lng: pickLocale(stored),
@@ -46,7 +47,7 @@ export async function initI18n() {
 }
 
 export async function setLanguage(tag: string) {
-  await AsyncStorage.setItem(STORAGE_KEY, tag);
+  storage.set(STORAGE_KEY, tag);
   await i18n.changeLanguage(tag);
 }
 export default i18n;

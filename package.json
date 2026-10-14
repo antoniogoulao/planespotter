@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
-    "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~57.0.29",
     "expo-camera": "~57.0.6",
     "expo-constants": "~57.0.22",
@@ -20,10 +19,12 @@
     "react": "19.2.3",
     "react-i18next": "17.0.16",
     "react-native": "0.86.3",
+    "react-native-mmkv": "4.3.2",
+    "react-native-nitro-modules": "0.37.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
     "react-native-svg": "15.15.4",
-    "react-native-view-shot": "5.1.0"
+    "react-native-view-shot": "6.1.1"
   },
   "devDependencies": {
     "@react-native/jest-preset": "0.86.3",
@@ -43,6 +44,11 @@
   },
   "jest": {
     "preset": "jest-expo"
+  },
+  "expo": {
+    "install": {
+      "exclude": ["react-native-view-shot"]
+    }
   },
   "private": true
 }
