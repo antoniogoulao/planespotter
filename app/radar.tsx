@@ -43,8 +43,10 @@ export default function RadarScreen() {
           step={1}
           value={rangeKm}
           onValueChange={setRangeKm}
-          minimumTrackTintColor="#4ade80"
-          maximumTrackTintColor="#1e3a2a"
+          // inverted: 50 km on the left, slide right to zoom in; track tints swap sides with it
+          inverted
+          minimumTrackTintColor="#1e3a2a"
+          maximumTrackTintColor="#4ade80"
           thumbTintColor="#4ade80"
           accessibilityLabel={t('radar.range')}
         />
