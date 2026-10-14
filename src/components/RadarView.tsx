@@ -19,9 +19,11 @@ export interface RadarViewProps {
 }
 
 const DEG = Math.PI / 180;
-// Rings at ¼, ½ and full range, rounded so labels show the exact ring distance
+const RING_KM = [5, 10, 25, 50];
+
+// Rings sit at fixed distances, so zooming in pushes them outwards; drop those past the edge
 export function ringDistances(rangeKm: number): number[] {
-  return [0.25, 0.5, 1].map(f => Math.round(rangeKm * f));
+  return RING_KM.filter(km => km <= rangeKm);
 }
 
 export function projectToSVG(

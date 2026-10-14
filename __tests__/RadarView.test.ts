@@ -34,16 +34,15 @@ describe('projectToSVG', () => {
 });
 
 describe('ringDistances', () => {
-  it('splits the range into quarter, half and full rings rounded to whole km', () => {
-    expect(ringDistances(10)).toEqual([3, 5, 10]);
-    expect(ringDistances(50)).toEqual([13, 25, 50]);
+  it('keeps rings at fixed distances so they expand outwards when zooming in', () => {
+    expect(ringDistances(50)).toEqual([5, 10, 25, 50]);
+    expect(ringDistances(24)).toEqual([5, 10]);
+    expect(ringDistances(10)).toEqual([5, 10]);
   });
 
   it('keeps every ring inside the range across the zoom span', () => {
     for (let km = 10; km <= 50; km++) {
-      const rings = ringDistances(km);
-      expect(rings[rings.length - 1]).toBe(km);
-      rings.forEach(r => expect(r).toBeLessThanOrEqual(km));
+      ringDistances(km).forEach(r => expect(r).toBeLessThanOrEqual(km));
     }
   });
 });
