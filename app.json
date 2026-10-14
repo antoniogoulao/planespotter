@@ -8,7 +8,8 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "dev.antoniogoulao.planespotter"
+      "bundleIdentifier": "dev.antoniogoulao.planespotter",
+      "appleTeamId": "VM8NNCL8ZH"
     },
     "android": {
       "package": "dev.antoniogoulao.planespotter",

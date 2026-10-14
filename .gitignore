@@ -41,3 +41,6 @@ yarn-error.*
 /android
 .superpowers/
 .worktrees/
+
+# local secrets
+credentials.json
