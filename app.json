@@ -8,7 +8,8 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "dev.antoniogoulao.planespotter"
+      "bundleIdentifier": "dev.antoniogoulao.planespotter",
+      "appleTeamId": "VM8NNCL8ZH"
     },
     "android": {
       "package": "dev.antoniogoulao.planespotter",
@@ -33,13 +34,27 @@
       "expo-router",
       "expo-image",
       "expo-localization",
-      ["expo-camera", { "cameraPermission": "PlaneSpotter needs camera access to show aircraft on the live feed." }],
-      ["expo-location", { "locationWhenInUsePermission": "PlaneSpotter uses your location to find nearby aircraft." }],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "PlaneSpotter needs camera access to show aircraft on the live feed."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "PlaneSpotter uses your location to find nearby aircraft."
+        }
+      ],
       "expo-sensors",
-      ["expo-media-library", {
-        "photosPermission": "PlaneSpotter needs photo library access to save AR screenshots.",
-        "savePhotosPermission": "PlaneSpotter needs permission to save photos to your Camera Roll."
-      }]
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "PlaneSpotter needs photo library access to save AR screenshots.",
+          "savePhotosPermission": "PlaneSpotter needs permission to save photos to your Camera Roll."
+        }
+      ],
+      "expo-status-bar"
     ]
   }
 }

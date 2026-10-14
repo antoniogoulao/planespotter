@@ -53,8 +53,9 @@ Each marker shows the airline logo (or a military / N/A badge), callsign, depart
 # Install dependencies
 npm install
 
-# iOS — install native pods first
-cd ios && pod install && cd ..
+# ios/ and android/ are generated from app.json (not committed).
+# expo run:* runs prebuild + pod install on first launch.
+# After changing app.json or native deps: npx expo prebuild --clean
 
 # Run on a connected iOS device
 npx expo run:ios --device
