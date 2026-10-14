@@ -14,34 +14,34 @@ describe('useRoutes', () => {
   afterEach(() => jest.restoreAllMocks());
 
   it('returns the route for a known callsign', async () => {
-    const { result } = renderHook(() => useRoutes(['TAP1234']));
+    const { result } = await renderHook(() => useRoutes(['TAP1234']));
     await waitFor(() => expect(result.current.get('TAP1234')).toEqual(MOCK_ROUTE));
   });
 
   it('fetches each callsign exactly once across re-renders', async () => {
-    const { result, rerender } = renderHook(
+    const { result, rerender } = await renderHook(
       ({ cs }: { cs: string[] }) => useRoutes(cs),
       { initialProps: { cs: ['TAP1234'] } },
     );
     await waitFor(() => expect(result.current.get('TAP1234')).toBeDefined());
-    rerender({ cs: ['TAP1234'] });
+    await rerender({ cs: ['TAP1234'] });
     expect(adsbdb.fetchRoute).toHaveBeenCalledTimes(1);
   });
 
   it('stores null for callsigns with no route', async () => {
     jest.spyOn(adsbdb, 'fetchRoute').mockResolvedValue(null);
-    const { result } = renderHook(() => useRoutes(['ZZZ999']));
+    const { result } = await renderHook(() => useRoutes(['ZZZ999']));
     await waitFor(() => expect(result.current.has('ZZZ999')).toBe(true));
     expect(result.current.get('ZZZ999')).toBeNull();
   });
 
   it('fetches new callsigns when they are added', async () => {
-    const { result, rerender } = renderHook(
+    const { result, rerender } = await renderHook(
       ({ cs }: { cs: string[] }) => useRoutes(cs),
       { initialProps: { cs: ['TAP1234'] } },
     );
     await waitFor(() => expect(result.current.get('TAP1234')).toBeDefined());
-    rerender({ cs: ['TAP1234', 'KLM001'] });
+    await rerender({ cs: ['TAP1234', 'KLM001'] });
     await waitFor(() => expect(result.current.get('KLM001')).toBeDefined());
     expect(adsbdb.fetchRoute).toHaveBeenCalledTimes(2);
   });
