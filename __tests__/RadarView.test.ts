@@ -1,4 +1,4 @@
-import { projectToSVG } from '../src/components/RadarView';
+import { projectToSVG, ringDistances } from '../src/components/RadarView';
 
 const origin = { lat: 0, lon: 0 };
 
@@ -30,5 +30,20 @@ describe('projectToSVG', () => {
     const { x, y } = projectToSVG(origin, { lat: 2, lon: 0 }, 100_000, R);
     const dist = Math.sqrt(x * x + y * y);
     expect(dist).toBeCloseTo(R, 0);
+  });
+});
+
+describe('ringDistances', () => {
+  it('splits the range into quarter, half and full rings rounded to whole km', () => {
+    expect(ringDistances(10)).toEqual([3, 5, 10]);
+    expect(ringDistances(50)).toEqual([13, 25, 50]);
+  });
+
+  it('keeps every ring inside the range across the zoom span', () => {
+    for (let km = 10; km <= 50; km++) {
+      const rings = ringDistances(km);
+      expect(rings[rings.length - 1]).toBe(km);
+      rings.forEach(r => expect(r).toBeLessThanOrEqual(km));
+    }
   });
 });

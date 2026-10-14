@@ -15,7 +15,8 @@
   },
   "radar": {
     "title": "Radar",
-    "locating": "Localizando…"
+    "locating": "Localizando…",
+    "range": "Alcance do radar"
   },
   "ar": {
     "title": "Vista RA",
