@@ -15,7 +15,8 @@
   },
   "radar": {
     "title": "Radar",
-    "locating": "Locating…"
+    "locating": "Locating…",
+    "range": "Radar range"
   },
   "ar": {
     "title": "AR View",

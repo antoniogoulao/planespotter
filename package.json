@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@react-native-community/slider": "5.2.0",
     "expo": "~57.0.29",
     "expo-camera": "~57.0.6",
     "expo-constants": "~57.0.22",

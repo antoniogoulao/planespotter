@@ -19,7 +19,12 @@ export interface RadarViewProps {
 }
 
 const DEG = Math.PI / 180;
-const RING_KM = [10, 25, 50];
+const RING_KM = [5, 10, 25, 50];
+
+// Rings sit at fixed distances, so zooming in pushes them outwards; drop those past the edge
+export function ringDistances(rangeKm: number): number[] {
+  return RING_KM.filter(km => km <= rangeKm);
+}
 
 export function projectToSVG(
   location: { lat: number; lon: number },
@@ -53,6 +58,7 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50, routes = 
   const R = Math.min(width, height) * 0.45;
   const rangeM = rangeKm * 1000;
   const discRotation = azimuth !== null ? -azimuth : 0;
+  const rings = ringDistances(rangeKm);
 
   const visibleAircraft = location
     ? aircraft.filter(a => haversineDistance(location, a) <= rangeM)
@@ -77,7 +83,7 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50, routes = 
         {/* Rotating disc content: rings, labels, cardinals, aircraft */}
         <G transform={`rotate(${discRotation})`}>
           {/* Range rings */}
-          {RING_KM.map(km => (
+          {rings.map(km => (
             <Circle
               key={km}
               cx={0} cy={0}
@@ -89,7 +95,7 @@ export function RadarView({ location, azimuth, aircraft, rangeKm = 50, routes = 
           ))}
 
           {/* Range labels */}
-          {RING_KM.map(km => (
+          {rings.map(km => (
             <SvgText
               key={`lbl-${km}`}
               x={4}

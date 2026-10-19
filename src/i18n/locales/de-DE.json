@@ -15,7 +15,8 @@
   },
   "radar": {
     "title": "Radar",
-    "locating": "Lokalisiere…"
+    "locating": "Lokalisiere…",
+    "range": "Radarreichweite"
   },
   "ar": {
     "title": "AR-Ansicht",
